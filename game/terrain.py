@@ -56,12 +56,14 @@ class VoronoiTile:
         num_high = len(list(filter(lambda x: x[2] > HEIGHT_SCALE * 0.4, vertices)))
         num_above = len(list(filter(lambda x: HEIGHT_SCALE * 0.4 > x[2] > 0, vertices)))
         num_below = len(list(filter(lambda x: x[2] <= 0, vertices)))
+        num_deep = len(list(filter(lambda x: x[2] < -HEIGHT_SCALE * 0.2, vertices)))
 
         # Calculate the color:
         #  * White if high altitude
         #  * Green if land
         #  * Tan if coast
         #  * Blue if water
+        #  * Dark Blue if deep water
         # poly_color = (uniform(0, 1), uniform(0, 1), uniform(0, 1), 1, )
         if num_high:
             white = uniform(0.7, 1.0)
@@ -69,13 +71,15 @@ class VoronoiTile:
         elif num_below and num_above:
             yellow = uniform(0.5, 1.0)
             poly_color = (yellow, yellow, 0.0, 1.0)
-        elif num_below:
+        elif num_deep:
             poly_color = (0.0, 0.0, uniform(0.5, 1.0), 1.0)
+        elif num_below:
+            poly_color = (0.3, 0.3, uniform(0.5, 1.0), 1.0)
         else:
             poly_color = (0.0, uniform(0.5, 1.0), 0.0, 1.0)
 
         for i, point in enumerate(vertices):
-            vertex.addData3f(*point)
+            vertex.addData3f(point[0], point[1], max(point[2], 0))
             normal.addData3f(0, 0, 1)
             color.addData4f(*poly_color)
             #texcoord.addData2f(1, 0)
@@ -150,4 +154,4 @@ def build_terrain():
         except ValueError:
             continue
 
-    add_plane(*MAP_SIZE)
+    # add_plane(*MAP_SIZE)
