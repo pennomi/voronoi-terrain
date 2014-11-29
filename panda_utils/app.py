@@ -63,7 +63,7 @@ class MainApp(ShowBase):
         dt = self.taskMgr.globalClock.getDt()
 
         # Update camera
-        base.cam.setPos(0, 0, 40)
+        base.cam.setPos(0, 0, 100)
         base.cam.lookAt(0, 0, 0)
 
         return Task.cont
