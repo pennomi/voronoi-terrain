@@ -53,21 +53,26 @@ class VoronoiTile:
                 octaves=5) * HEIGHT_SCALE)
             for v in vertices]
 
-        num_above = len(list(filter(lambda x: x[2] > 0, vertices)))
+        num_high = len(list(filter(lambda x: x[2] > HEIGHT_SCALE * 0.4, vertices)))
+        num_above = len(list(filter(lambda x: HEIGHT_SCALE * 0.4 > x[2] > 0, vertices)))
         num_below = len(list(filter(lambda x: x[2] <= 0, vertices)))
 
         # Calculate the color:
+        #  * White if high altitude
         #  * Green if land
         #  * Tan if coast
         #  * Blue if water
         # poly_color = (uniform(0, 1), uniform(0, 1), uniform(0, 1), 1, )
-        if num_below and num_above:
+        if num_high:
+            white = uniform(0.7, 1.0)
+            poly_color = (white, white, white, 1.0)
+        elif num_below and num_above:
             yellow = uniform(0.5, 1.0)
-            poly_color = (yellow, yellow, 0.0, 0.0)
+            poly_color = (yellow, yellow, 0.0, 1.0)
         elif num_below:
-            poly_color = (0.0, 0.0, uniform(0.5, 1.0), 0.0)
+            poly_color = (0.0, 0.0, uniform(0.5, 1.0), 1.0)
         else:
-            poly_color = (0.0, uniform(0.5, 1.0), 0.0, 0.0)
+            poly_color = (0.0, uniform(0.5, 1.0), 0.0, 1.0)
 
         for i, point in enumerate(vertices):
             vertex.addData3f(*point)
