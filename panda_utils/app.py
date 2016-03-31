@@ -6,20 +6,18 @@ Chances are in the future that this will also provide the game state switcher.
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
 from panda3d import core
-from .controllers import ControllerInput
-from pandac.PandaModules import loadPrcFileData
+#from pandac.PandaModules import loadPrcFileData
 from game.terrain import build_terrain
 
 # Window config
-loadPrcFileData("", "window-title Test Game")
-loadPrcFileData("", "win-size 1200 900")
+#loadPrcFileData("", "window-title Test Game")
+#loadPrcFileData("", "win-size 1200 900")
 
 
 class MainApp(ShowBase):
     def __init__(self):
         # Normal init
         super(MainApp, self).__init__()
-        self.controller_input = ControllerInput()
         self.taskMgr.add(self.update, "update")
         base.setFrameRateMeter(True)
 
@@ -52,14 +50,13 @@ class MainApp(ShowBase):
         self.render.setLight(spotlightNode)
 
         ambient_light = core.AmbientLight("ambientLight")
-        ambient_light.setColor(core.Vec4(.5, .5, .5, 1))
+        ambient_light.setColor(core.Vec4(.75, .75, .75, 1))
         self.render.setLight(self.render.attachNewNode(ambient_light))
 
         # Enable the shader generator for the receiving nodes
         #self.render.setShaderAuto()
 
     def update(self, task):
-        self.controller_input.update()
         dt = self.taskMgr.globalClock.getDt()
 
         # Update camera
