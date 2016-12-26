@@ -14,7 +14,7 @@ from game.terrain import build_terrain
 #loadPrcFileData("", "win-size 1200 900")
 
 
-class MainApp(ShowBase):
+class MainApp(ShowBase, object):
     def __init__(self):
         # Normal init
         super(MainApp, self).__init__()
